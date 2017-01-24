@@ -4,7 +4,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) <2015> Copyright holders list can be found in AUTHORS file
+Copyright (c) <2015>
 	- Mathieu Bodjikian <mathieu@bodjikian.fr>
 	- Charles-Antoine Mathieu <skatkatt@root.gg>
 
@@ -27,34 +27,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 **/
 
-package common
+package sql
 
 import (
-	"time"
-
-	"github.com/nu7hatch/gouuid"
+	"github.com/root-gg/utils"
 )
 
-// Token provide a very basic authentication mechanism
-type Token struct {
-	Token        string `json:"token" bson:"token" gorm:"column:token;primary_key"`
-	CreationDate int64  `json:"creationDate" bson:"creationDate" gorm:"column:creationDate"`
-	Comment      string `json:"comment,omitempty" bson:"comment" gorm:"column:comment"`
+// MetadataBackendConfig object
+type MetadataBackendConfig struct {
+	Host     string
+	Port     int
+	Database string
+	Username string
+	Password string
 }
 
-// NewToken create a new Token instance
-func NewToken() (t *Token) {
-	t = new(Token)
-	return
-}
-
-// Create initialize a new Token
-func (t *Token) Create() (err error) {
-	t.CreationDate = time.Now().Unix()
-	uuid, err := uuid.NewV4()
-	if err != nil {
-		return
-	}
-	t.Token = uuid.String()
+// NewSQLMetadataBackendConfig configures the backend
+// from config passed as argument
+func NewSQLMetadataBackendConfig(config map[string]interface{}) (mbc *MetadataBackendConfig) {
+	mbc = new(MetadataBackendConfig)
+	mbc.Host = "localhost"
+	mbc.Port = 3306
+	mbc.Database = "plik"
+	mbc.Username = "plik"
+	mbc.Password = "plik"
+	utils.Assign(mbc, config)
 	return
 }

@@ -37,7 +37,7 @@ type User struct {
 	Login  string   `json:"login,omitempty" bson:"login"`
 	Name   string   `json:"name,omitempty" bson:"name"`
 	Email  string   `json:"email,omitempty" bson:"email"`
-	Tokens []*Token `json:"tokens,omitempty" bson:"tokens"`
+	Tokens []*Token `json:"tokens,omitempty" bson:"tokens" gorm:"-"`
 }
 
 // NewUser create a new user object

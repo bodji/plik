@@ -35,6 +35,7 @@ import (
 	"github.com/root-gg/plik/server/metadataBackend/bolt"
 	"github.com/root-gg/plik/server/metadataBackend/file"
 	"github.com/root-gg/plik/server/metadataBackend/mongo"
+	"github.com/root-gg/plik/server/metadataBackend/sql"
 )
 
 var metadataBackend MetadataBackend
@@ -75,6 +76,8 @@ func Initialize() {
 			metadataBackend = mongo.NewMongoMetadataBackend(common.Config.MetadataBackendConfig)
 		case "bolt":
 			metadataBackend = bolt.NewBoltMetadataBackend(common.Config.MetadataBackendConfig)
+		case "sql":
+			metadataBackend = sql.NewSQLMetadataBackend(common.Config.MetadataBackendConfig)
 		default:
 			common.Logger().Fatalf("Invalid metadata backend %s", common.Config.DataBackend)
 		}

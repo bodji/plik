@@ -41,31 +41,31 @@ var (
 
 // Upload object
 type Upload struct {
-	ID       string `json:"id" bson:"id"`
-	Creation int64  `json:"uploadDate" bson:"uploadDate"`
-	TTL      int    `json:"ttl" bson:"ttl"`
+	ID       string `json:"id" bson:"id" gorm:"column:id"`
+	Creation int64  `json:"uploadDate" bson:"uploadDate" gorm:"column:uploadDate"`
+	TTL      int    `json:"ttl" bson:"ttl" gorm:"column:ttl"`
 
-	DownloadDomain string `json:"downloadDomain" bson:"-"`
-	RemoteIP       string `json:"uploadIp,omitempty" bson:"uploadIp"`
-	Comments       string `json:"comments" bson:"comments"`
+	DownloadDomain string `json:"downloadDomain" bson:"-" gorm:"column:downloadDomain"`
+	RemoteIP       string `json:"uploadIp,omitempty" bson:"uploadIp" gorm:"column:uploadIp"`
+	Comments       string `json:"comments" bson:"comments" gorm:"column:comments"`
 
-	Files map[string]*File `json:"files" bson:"files"`
+	Files map[string]*File `json:"files" bson:"files" gorm:"-"`
 
-	UploadToken string `json:"uploadToken,omitempty" bson:"uploadToken"`
-	User        string `json:"user,omitempty" bson:"user"`
-	Token       string `json:"token,omitempty" bson:"token"`
-	IsAdmin     bool   `json:"admin"`
+	UploadToken string `json:"uploadToken,omitempty" bson:"uploadToken" gorm:"column:uploadToken"`
+	User        string `json:"user,omitempty" bson:"user" gorm:"column:user"`
+	Token       string `json:"token,omitempty" bson:"token" gorm:"column:token"`
+	IsAdmin     bool   `json:"admin" gorm:"column:admin"`
 
-	Stream    bool `json:"stream" bson:"stream"`
-	OneShot   bool `json:"oneShot" bson:"oneShot"`
-	Removable bool `json:"removable" bson:"removable"`
+	Stream    bool `json:"stream" bson:"stream" gorm:"column:stream"`
+	OneShot   bool `json:"oneShot" bson:"oneShot" gorm:"column:oneshot"`
+	Removable bool `json:"removable" bson:"removable" gorm:"column:removable"`
 
-	ProtectedByPassword bool   `json:"protectedByPassword" bson:"protectedByPassword"`
-	Login               string `json:"login,omitempty" bson:"login"`
-	Password            string `json:"password,omitempty" bson:"password"`
+	ProtectedByPassword bool   `json:"protectedByPassword" bson:"protectedByPassword" gorm:"column:protectedByPassword"`
+	Login               string `json:"login,omitempty" bson:"login" gorm:"column:login"`
+	Password            string `json:"password,omitempty" bson:"password" gorm:"column:password"`
 
-	ProtectedByYubikey bool   `json:"protectedByYubikey" bson:"protectedByYubikey"`
-	Yubikey            string `json:"yubikey,omitempty" bson:"yubikey"`
+	ProtectedByYubikey bool   `json:"protectedByYubikey" bson:"protectedByYubikey" gorm:"column:protectedByYubikey"`
+	Yubikey            string `json:"yubikey,omitempty" bson:"yubikey" gorm:"column:yubikey"`
 
 	//ShortURL       string `json:"shortUrl" bson:"shortUrl"` removed v1.2.1
 }

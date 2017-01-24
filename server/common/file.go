@@ -31,15 +31,15 @@ package common
 
 // File object
 type File struct {
-	ID             string                 `json:"id" bson:"fileId"`
-	Name           string                 `json:"fileName" bson:"fileName"`
-	Md5            string                 `json:"fileMd5" bson:"fileMd5"`
-	Status         string                 `json:"status" bson:"status"`
-	Type           string                 `json:"fileType" bson:"fileType"`
-	UploadDate     int64                  `json:"fileUploadDate" bson:"fileUploadDate"`
-	CurrentSize    int64                  `json:"fileSize" bson:"fileSize"`
-	BackendDetails map[string]interface{} `json:"backendDetails,omitempty" bson:"backendDetails"`
-	Reference      string                 `json:"reference" bson:"reference"`
+	ID             string                 `json:"id" bson:"fileId" gorm:"column:id"`
+	Name           string                 `json:"fileName" bson:"fileName" gorm:"column:fileName"`
+	Md5            string                 `json:"fileMd5" bson:"fileMd5" gorm:"column:fileMd5"`
+	Status         string                 `json:"status" bson:"status" gorm:"column:status"`
+	Type           string                 `json:"fileType" bson:"fileType" gorm:"column:fileType"`
+	UploadDate     int64                  `json:"fileUploadDate" bson:"fileUploadDate" gorm:"column:fileUploadDate"`
+	CurrentSize    int64                  `json:"fileSize" bson:"fileSize" gorm:"column:fileSize"`
+	BackendDetails map[string]interface{} `json:"backendDetails,omitempty" bson:"backendDetails" gorm:"-"`
+	Reference      string                 `json:"reference" bson:"reference" gorm:"column:reference"`
 }
 
 // NewFile instantiate a new object
