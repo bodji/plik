@@ -162,7 +162,7 @@ func CreateUpload(ctx *juliet.Context, resp http.ResponseWriter, req *http.Reque
 
 		upload.ProtectedByPassword = true
 		if upload.Login == "" {
-			upload.Login = "plik"
+			upload.Login = common.Config.DefaultLogin
 		}
 
 		// The Authorization header will contain the base64 version of "login:password"

@@ -1347,23 +1347,29 @@ plik.controller('AlertDialogController', ['$scope', 'args',
     }]);
 
 // HTTP basic auth credentials dialog controller
-plik.controller('PasswordController', ['$scope',
-    function ($scope) {
+plik.controller('PasswordController', ['$scope','$config',
+    function ($scope, $config) {
 
-        // Ugly but it works
-        setTimeout(function () {
-            $("#login").focus();
-        }, 100);
+         // Get server config
+        $config.getConfig()
+        .then(function (config) {
+            $scope.config = config;
 
-        $scope.title = 'Please fill credentials !';
-        $scope.login = 'plik';
-        $scope.password = '';
+            // Ugly but it works
+            setTimeout(function () {
+               $("#login").focus();
+            }, 100);
 
-        $scope.close = function (login, password) {
-            if (login.length > 0 && password.length > 0) {
-                $scope.$close({login: login, password: password});
-            }
-        };
+            $scope.title = 'Please fill credentials !';
+            $scope.login = $scope.config.defaultLogin;
+            $scope.password = '';
+
+            $scope.close = function (login, password) {
+                if (login.length > 0 && password.length > 0) {
+                    $scope.$close({login: login, password: password});
+                }
+            };
+        })
     }]);
 
 // Yubikey dialog controller

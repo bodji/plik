@@ -65,6 +65,7 @@ type Configuration struct {
 	YubikeyAPISecret string           `json:"-"`
 	YubiAuth         *yubigo.YubiAuth `json:"-"`
 
+	DefaultLogin    string   `json:"defaultLogin"`
 	SourceIPHeader  string   `json:"-"`
 	UploadWhitelist []string `json:"-"`
 
@@ -105,6 +106,7 @@ func NewConfiguration() (config *Configuration) {
 	config.ListenPort = 8080
 	config.DataBackend = "file"
 	config.MetadataBackend = "file"
+	config.DefaultLogin = "plik"
 	config.MaxFileSize = 10737418240 // 10GB
 	config.MaxFilePerUpload = 1000
 	config.DefaultTTL = 2592000 // 30 days
