@@ -1,0 +1,191 @@
+# Default values for plik.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: rootgg/plik
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Plik specific configuration
+# This section mirrors the plikd.cfg configuration file
+
+# Deployment Strategy
+# Can be 'Deployment' or 'StatefulSet'. 
+# Use StatefulSet if you are using 'file' backend with a PersistentVolume.
+kind: Deployment
+
+persistence:
+  enabled: false
+  # storageClassName: default
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  # annotations: {}
+  path: /home/plik/server/files
+
+plikd:
+  Debug: false
+  DebugRequests: false
+  LogLevel: "INFO"
+  
+  ListenPort: 8080
+  ListenAddress: "0.0.0.0"
+  MetricsPort: 0
+  MetricsAddress: "0.0.0.0"
+  Path: ""
+  SslEnabled: false
+  SslCert: "plik.crt"
+  SslKey: "plik.key"
+  TlsVersion: "tlsv10"
+  NoWebInterface: false
+  DownloadDomain: ""
+  DownloadDomainAlias: []
+  EnhancedWebSecurity: false
+  SessionTimeout: "365d"
+  AbuseContact: ""
+  WebappDirectory: "../webapp/dist"
+  ClientsDirectory: "../clients"
+  ChangelogDirectory: "../changelog"
+  SourceIpHeader: ""
+  UploadWhitelist: []
+  
+  MaxFileSizeStr: "10GB"
+  MaxUserSizeStr: "unlimited"
+  MaxFilePerUpload: 1000
+  
+  DefaultTTLStr: "30d"
+  MaxTTLStr: "30d"
+  
+  FeatureAuthentication: "disabled"
+  DisableLocalLogin: false
+  FeatureOneShot: "enabled"
+  FeatureRemovable: "enabled"
+  FeatureStream: "enabled"
+  FeaturePassword: "enabled"
+  FeatureComments: "enabled"
+  FeatureSetTTL: "enabled"
+  FeatureExtendTTL: "disabled"
+  FeatureClients: "enabled"
+  FeatureGithub: "enabled"
+  FeatureText: "enabled"
+  
+  # Google config (consider using secrets)
+  GoogleApiClientID: "" 
+  GoogleValidDomains: []
+  
+  # Ovh config (consider using secrets)
+  OvhApiEndpoint: ""
+  
+  # OIDC config (consider using secrets)
+  OIDCClientID: ""
+  OIDCProviderURL: ""
+  OIDCValidDomains: []
+  
+  DataBackend: "file"
+  DataBackendConfig:
+    Directory: "files"
+    # GCS
+    # Bucket: "MyAwesomeBucket"
+    # Folder: "plik"
+    # Swift
+    # Container: "plik"
+    # AuthUrl: "https://auth.swiftauthapi.xxx/v2.0/"
+    # UserName: "user@tld.net"
+    # Domain: "domain"
+    # Tenant: "tenant"
+    # S3
+    # Endpoint: "127.0.0.1:9000"
+    # AccessKeyID: "access_key_id"
+    # SecretAccessKey: "access_key_secret"
+    # Bucket: "plik"
+    # Location: "us-east-1"
+    # Prefix: ""
+    # UseSSL: true
+    # PartSize: 16777216
+    # SSE: ""
+
+  MetadataBackendConfig:
+    Driver: "sqlite3"
+    ConnectionString: "plik.db"
+    Debug: false
+
+# External Secrets
+# If set, these values will override the checks for existing secrets.
+# You can use this to point to an existing secret that contains sensitive data.
+existingSecret: ""
